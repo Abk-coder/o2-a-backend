@@ -80,29 +80,24 @@ export const UserSchema = new mongoose.Schema({
     default: UserStatus.WaitingValidation,
   },
   followers: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
+    type: [mongoose.Schema.Types.ObjectId],
     index: true,
   },
   postLikes: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'posts',
+    type: [mongoose.Schema.Types.ObjectId],
     index: true,
   },
   commentLikes: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'comments',
+    type: [mongoose.Schema.Types.ObjectId],
     index: true,
   },
   //posts signales
   postReports: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'posts',
+    type: [mongoose.Schema.Types.ObjectId],
     index: true,
   },
   commentReports: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'comments',
+    type: [mongoose.Schema.Types.ObjectId],
     index: true,
   },
   lastLogin: {

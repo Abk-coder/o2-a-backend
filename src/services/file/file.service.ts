@@ -2,9 +2,8 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { HttpException } from '@nestjs/common';
 import { logger } from 'src/utils/logger';
 
-
 @Injectable()
-export class FilesService {
+export class FileService {
   async uploadMultiFiles(files: [Express.Multer.File]) {
     try {
       logger.info(`--FILES.SERVICES.UPLOADFILES-- INIT`);
@@ -51,7 +50,8 @@ export class FilesService {
     }
     logger.warn(file.path);
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    logger.info('--UPLOADED FILE SUCCESSFULLY-- ' + file.path);
-    return file.path;
+    file.filename = uniqueSuffix + '.' + fileExtension;
+    logger.info('--UPLOADED FILE SUCCESSFULLY-- ' + file.filename);
+    return file.filename;
   }
 }
