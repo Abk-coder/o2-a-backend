@@ -3,8 +3,7 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { UserSchema } from './models/user.modele';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthService } from '../auth/auth.service';
-import { FilesService } from 'src/services/file/file.service';
+import { FileService } from 'src/services/file/file.service';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
@@ -14,7 +13,7 @@ import { AuthModule } from '../auth/auth.module';
     AuthModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, FilesService],
-  exports: [UsersService, MongooseModule, FilesService],
+  providers: [UsersService, FileService],
+  exports: [UsersService, MongooseModule, FileService],
 })
 export class UsersModule {}

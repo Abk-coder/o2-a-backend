@@ -12,12 +12,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configuration } from './config/configuration';
 import { AuthModule } from './api/auth/auth.module';
-import { FilesService } from './services/file/file.service';
+import { FileService } from './services/file/file.service';
+import { PostsModule } from './api/posts/posts.module';
 
 @Module({
   imports: [
     UsersModule,
     AuthModule,
+    PostsModule,
     ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -34,7 +36,7 @@ import { FilesService } from './services/file/file.service';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, FilesService],
+  providers: [AppService, FileService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
