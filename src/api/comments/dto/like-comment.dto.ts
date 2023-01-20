@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class UpdateCommentDto {
+export class LikeCommentDto {
   @IsNotEmpty()
-  text: string;
+  likerId: string;
 }

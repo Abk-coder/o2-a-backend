@@ -448,4 +448,88 @@ export class UsersService {
       throw new HttpException(error.message, error.status);
     }
   }
+  async likeComment(commentId: string, userId: string) {
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        {
+          _id: userId,
+          userStatus: UserStatus.AccountValidated,
+        },
+        {
+          $addToSet: { commentLikes: commentId },
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException('User introuvable!', HttpStatus.NOT_FOUND);
+      }
+      await user.save();
+    } catch (error) {
+      handleError(error);
+      throw new HttpException(error.message, error.status);
+    }
+  }
+  async unlikeComment(commentId: string, userId: string) {
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        {
+          _id: userId,
+          userStatus: UserStatus.AccountValidated,
+        },
+        {
+          $pull: { commentLikes: commentId },
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException('User introuvable!', HttpStatus.NOT_FOUND);
+      }
+      await user.save();
+    } catch (error) {
+      handleError(error);
+      throw new HttpException(error.message, error.status);
+    }
+  }
+  async reportComment(commentId: string, userId: string) {
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        {
+          _id: userId,
+          userStatus: UserStatus.AccountValidated,
+        },
+        {
+          $addToSet: { commentReports: commentId },
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException('User introuvable!', HttpStatus.NOT_FOUND);
+      }
+      await user.save();
+    } catch (error) {
+      handleError(error);
+      throw new HttpException(error.message, error.status);
+    }
+  }
+  async unreportComment(commentId: string, userId: string) {
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        {
+          _id: userId,
+          userStatus: UserStatus.AccountValidated,
+        },
+        {
+          $pull: { commentReports: commentId },
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException('User introuvable!', HttpStatus.NOT_FOUND);
+      }
+      await user.save();
+    } catch (error) {
+      handleError(error);
+      throw new HttpException(error.message, error.status);
+    }
+  }
 }
