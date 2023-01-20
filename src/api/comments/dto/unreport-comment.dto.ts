@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class UpdateCommentDto {
+export class UnreportCommentDto {
   @IsNotEmpty()
-  text: string;
+  unreporterId: string;
 }

@@ -14,12 +14,14 @@ import { configuration } from './config/configuration';
 import { AuthModule } from './api/auth/auth.module';
 import { FileService } from './services/file/file.service';
 import { PostsModule } from './api/posts/posts.module';
+import { CommentsModule } from './api/comments/comments.module';
 
 @Module({
   imports: [
     UsersModule,
     AuthModule,
     PostsModule,
+    CommentsModule,
     ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
