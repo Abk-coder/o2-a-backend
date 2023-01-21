@@ -8,8 +8,7 @@ import {
 
 export class AuthCredentialsDto {
   @IsNotEmpty()
-  @IsEmail()
-  email: string;
+  username: string;
 
   @IsString()
   @IsNotEmpty()

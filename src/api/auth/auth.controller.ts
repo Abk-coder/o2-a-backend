@@ -17,7 +17,7 @@ export class AuthController {
   @Post('/signin')
   async signIn(@Res() res: Response, @Body() loginData: AuthCredentialsDto) {
     try {
-      logger.info(`signin.controller ${loginData.email}`);
+      logger.info(`signin.controller ${loginData.username}`);
       const userData = await this.authService.loginUser(loginData);
       return res.status(HttpStatus.CREATED).json(userData);
     } catch (error) {

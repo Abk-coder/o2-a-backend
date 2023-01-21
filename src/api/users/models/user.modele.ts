@@ -74,6 +74,11 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  is_patient: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   userStatus: {
     type: String,
     enum: UserStatus,

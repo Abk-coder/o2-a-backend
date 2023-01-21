@@ -60,7 +60,7 @@ export class AuthService {
   async loginUser(loginData: AuthCredentialsDto) {
     try {
       const user = await this.userModel
-        .findOne({ email: loginData.email })
+        .findOne({ username: loginData.username })
         .exec();
       if (!user) {
         throw new HttpException(

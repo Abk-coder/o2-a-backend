@@ -15,6 +15,8 @@ import { AuthModule } from './api/auth/auth.module';
 import { FileService } from './services/file/file.service';
 import { PostsModule } from './api/posts/posts.module';
 import { CommentsModule } from './api/comments/comments.module';
+import { SendgridService } from './sendgrid/sendgrid.service';
+import { MailController } from './mail/mail.controller';
 
 @Module({
   imports: [
@@ -37,8 +39,8 @@ import { CommentsModule } from './api/comments/comments.module';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService, FileService],
+  controllers: [AppController, MailController],
+  providers: [AppService, FileService, SendgridService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

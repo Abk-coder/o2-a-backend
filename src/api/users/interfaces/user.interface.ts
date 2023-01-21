@@ -17,6 +17,7 @@ export interface User extends Document {
   readonly created_at: Date;
   updated_at: Date;
   role: Role;
+  is_patient: boolean;
   readonly gender: Gender;
   accessToken: string;
   emailConfirmed: boolean;
