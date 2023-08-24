@@ -12,14 +12,14 @@ import { Role } from 'src/utils/enums/role.enum';
 import { UpdateUserAdminDto } from './dto/update-user-admin.dto';
 import { ChangeUserStatusByAdminDto } from './dto/change-user-status-admin.dto';
 import { ChangeUserRoleByAdminDto } from './dto/change-user-role-admin.dto';
-import { FilesService } from 'src/services/file/file.service';
+import { FileService } from 'src/services/file/file.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel('User') private userModel: Model<User>,
     private authService: AuthService,
-    private fileService: FilesService,
+    private fileService: FileService,
   ) {}
 
   async updateUserByAdmin(
@@ -321,21 +321,6 @@ export class UsersService {
     }
   }
 
-  async suspendUser(id: string) {
-    try {
-      const user = await this.userModel.findByIdAndUpdate(id, {
-        userStatus: UserStatus.Suspended,
-      });
-      if (!user) {
-        throw new HttpException('Utisateur introuvable', HttpStatus.NOT_FOUND);
-      }
-      return user;
-    } catch (error) {
-      handleError(error);
-      throw new HttpException(error.message, error.status);
-    }
-  }
-
   async checkExistingFieldsUser(fieldName: string, value: any, userId: string) {
     let findRequest = {};
     try {
@@ -377,5 +362,90 @@ export class UsersService {
       pass += str.charAt(char);
     }
     return pass;
+  }
+
+  async likePost(postId: string, userId: string) {
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        {
+          _id: userId,
+          userStatus: UserStatus.AccountValidated,
+        },
+        {
+          $addToSet: { postLikes: postId },
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException('User introuvable!', HttpStatus.NOT_FOUND);
+      }
+      await user.save();
+    } catch (error) {
+      handleError(error);
+      throw new HttpException(error.message, error.status);
+    }
+  }
+  async unlikePost(postId: string, userId: string) {
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        {
+          _id: userId,
+          userStatus: UserStatus.AccountValidated,
+        },
+        {
+          $pull: { postLikes: postId },
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException('User introuvable!', HttpStatus.NOT_FOUND);
+      }
+      await user.save();
+    } catch (error) {
+      handleError(error);
+      throw new HttpException(error.message, error.status);
+    }
+  }
+  async reportPost(postId: string, userId: string) {
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        {
+          _id: userId,
+          userStatus: UserStatus.AccountValidated,
+        },
+        {
+          $addToSet: { postReports: postId },
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException('User introuvable!', HttpStatus.NOT_FOUND);
+      }
+      await user.save();
+    } catch (error) {
+      handleError(error);
+      throw new HttpException(error.message, error.status);
+    }
+  }
+  async unreportPost(postId: string, userId: string) {
+    try {
+      const user = await this.userModel.findOneAndUpdate(
+        {
+          _id: userId,
+          userStatus: UserStatus.AccountValidated,
+        },
+        {
+          $pull: { postReports: postId },
+        },
+        { new: true },
+      );
+      if (!user) {
+        throw new HttpException('User introuvable!', HttpStatus.NOT_FOUND);
+      }
+      await user.save();
+    } catch (error) {
+      handleError(error);
+      throw new HttpException(error.message, error.status);
+    }
   }
 }

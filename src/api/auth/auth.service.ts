@@ -3,7 +3,6 @@ import {
   UnauthorizedException,
   HttpException,
   HttpStatus,
-  Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -14,15 +13,7 @@ import { handleError } from 'src/utils/error/index';
 import { AuthCredentialsDto } from './dto/auth-credentials-dto';
 import { validatePassword } from '../../utils/helpers/bcrypt';
 import { logger } from '../../utils/logger/index';
-import { randomBytes } from 'crypto';
 import { UserStatus } from 'src/utils/enums/userStatus.enum';
-import {
-  cryptUserData,
-  decrypt,
-  decryptUserData,
-  encrypt,
-} from 'src/utils/helpers/crypto';
-import { Role } from 'src/utils/enums/role.enum';
 const jwt = require('jsonwebtoken');
 
 @Injectable()

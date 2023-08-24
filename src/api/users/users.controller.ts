@@ -220,8 +220,8 @@ export class UsersController {
   @Post('changePassword')
   async changePassword(
     @Req() req,
-    @Body() changePasswordDto: ChangePasswordDto,
     @Res() res,
+    @Body() changePasswordDto: ChangePasswordDto,
   ) {
     try {
       const userId = req['user']._id;
@@ -244,30 +244,12 @@ export class UsersController {
     }
   }
 
-  @Patch('suspendUser/:id')
+  @Get('usersByRole/:role')
   @Roles(Role.Admin)
-  async suspendUser(@Res() res: Response, @Param('id') id: string) {
-    try {
-      logger.info(`USERS.CONTROLLER.SUSPEND_USER ${id}----INIT`);
-      const user = await this.userService.suspendUser(id);
-      logger.info(`USERS.CONTROLLER.SUSPEND_USER ${id}----SUCCESS`);
-      return res.status(HttpStatus.ACCEPTED).json({
-        message: 'User suspended OK',
-        userId: user._id,
-      });
-    } catch (error) {
-      handleError(error);
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        message: error.message,
-      });
-    }
-  }
-
-  @Get('usersByRole')
-  @Roles(Role.Admin)
-  async getUsersByRole(@Res() res, @Query('role') role: Role) {
+  async getUsersByRole(@Res() res, @Param('role') role) {
     logger.info('--USER.GETUSERSBYROLE-- controller INIT');
     try {
+      console.log(role);
       const users = await this.userService.getUserByRole(role);
       logger.info(`--USER.GETUSERSBYROLE-- found ${users.length}`);
       return res.status(HttpStatus.OK).json(users);
